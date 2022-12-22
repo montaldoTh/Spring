@@ -1,6 +1,9 @@
 package com.tmonta.first.spring.controller;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.tmonta.first.spring.DataAccessObjet.StatusDAO;
 import com.tmonta.first.spring.model.Status;
+import com.tmonta.first.spring.view.StatusView;
+import com.tmonta.first.spring.view.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +19,14 @@ public class StatusController {
     StatusDAO statusDao;
 
     @GetMapping("/status-list")
+    @JsonView(StatusView.class)
     public List<Status> getStatusList(){
 
         return statusDao.findAll();
     }
 
     @GetMapping("/status/{id}")
+    @JsonView(StatusView.class)
     public ResponseEntity<Status> getStatus(@PathVariable int id){
 
         Optional<Status> response = statusDao.findById(id);

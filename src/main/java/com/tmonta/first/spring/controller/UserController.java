@@ -1,7 +1,9 @@
 package com.tmonta.first.spring.controller;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.tmonta.first.spring.DataAccessObjet.UserDAO;
 import com.tmonta.first.spring.model.User;
 
+import com.tmonta.first.spring.view.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +19,14 @@ public class UserController {
     UserDAO userDao;
 
     @GetMapping("/users")
+    @JsonView(UserView.class)
     public List<User> getUsers(){
 
         return userDao.findAll();
     }
 
     @GetMapping("/user/{id}")
+    @JsonView(UserView.class)
     public ResponseEntity<User> getUser(@PathVariable int id){
 
         Optional<User> response = userDao.findById(id);
@@ -69,6 +73,7 @@ public class UserController {
 
 
     @GetMapping("/user/firstname&name/{firstname}&{name}")
+    @JsonView(UserView.class)
     public List<User> getUsersFirstnameAndName(@PathVariable String firstname, @PathVariable String name){
         return userDao.findAllByFirstnameAndName(firstname, name);
     }
