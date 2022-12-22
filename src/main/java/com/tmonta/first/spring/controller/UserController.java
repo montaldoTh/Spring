@@ -54,10 +54,19 @@ public class UserController {
     }
 
     @DeleteMapping("/user/delete/{id}")
-    public boolean deleteUser(@PathVariable int id){
-        userDao.deleteById(id);
-        return true;
+    public ResponseEntity<String> deleteUser(@PathVariable int id){
+
+        Optional<User> userExist = userDao.findById(id);
+
+        if(userExist.isPresent()) {
+            userDao.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+
 
     @GetMapping("/user/firstname&name/{firstname}&{name}")
     public List<User> getUsersFirstnameAndName(@PathVariable String firstname, @PathVariable String name){

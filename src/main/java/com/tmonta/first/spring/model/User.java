@@ -1,10 +1,9 @@
 package com.tmonta.first.spring.model;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import javax.persistence.*;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class User {
 
 
@@ -12,6 +11,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name, firstname;
+    @ManyToOne
+    private Status status;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public Integer getId() {
         return id;
